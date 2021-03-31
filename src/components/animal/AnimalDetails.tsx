@@ -12,6 +12,7 @@ import { getAnimalAge, getAnimalWeight } from '../../utils/animal';
 import LayoutMultiColRow from '../layout/LayoutMultiColRow';
 import AnimalDetailsHeader from './details/AnimalDetailsHeader';
 import AnimalEvents from './events/AnimalEvents';
+import ParamsTable from './ParamsTable';
 
 const GET_ANIMAL_DETAILS = loader('../../graphql/queries/animal-details.graphql');
 
@@ -27,6 +28,18 @@ interface Response {
 interface AnimalDetailsProps {
     onLoad?: (animal: Animal) => void;
 }
+const { animal, events } = data;
+
+const birthDay = animal.details?.birthDate ? getAnimalAge(animal.details.birthDate) : '';
+const animalEvents = events?.[0]?.animalAll ?? [];
+const weight = animal.details?.weight ? getAnimalWeight(animal.details.weight) : '';
+const color = animal.details?.color ? animal.details?.color.value : '';
+
+const values = [
+    { title: 'Age - ', value: birthDay },
+    { title: 'Weight -', value: weight },
+    { title: 'Color -', value: color },
+];
 
 function AnimalDetails({ onLoad }: AnimalDetailsProps) {
     const params: RouterParams = useParams();
@@ -52,10 +65,6 @@ function AnimalDetails({ onLoad }: AnimalDetailsProps) {
         // TODO: replace with proper UI elements
         return <p>No data!</p>;
     }
-
-    const { animal, events } = data;
-    const birthDay = animal.details?.birthDate ? getAnimalAge(animal.details.birthDate) : '';
-    const animalEvents = events?.[0]?.animalAll ?? [];
 
     return (
         <div className={classes.root}>
@@ -101,6 +110,7 @@ function AnimalDetails({ onLoad }: AnimalDetailsProps) {
                             </Box>
                         </>
                     )}
+                    <ParamsTable items={values} />
                     <Box mt={1}>
                         <Typography variant="body1">Referencing Animal ID:{id}</Typography>
                     </Box>
