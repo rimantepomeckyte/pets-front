@@ -28,18 +28,6 @@ interface Response {
 interface AnimalDetailsProps {
     onLoad?: (animal: Animal) => void;
 }
-const { animal, events } = data;
-
-const birthDay = animal.details?.birthDate ? getAnimalAge(animal.details.birthDate) : '';
-const animalEvents = events?.[0]?.animalAll ?? [];
-const weight = animal.details?.weight ? getAnimalWeight(animal.details.weight) : '';
-const color = animal.details?.color ? animal.details?.color.value : '';
-
-const values = [
-    { title: 'Age - ', value: birthDay },
-    { title: 'Weight -', value: weight },
-    { title: 'Color -', value: color },
-];
 
 function AnimalDetails({ onLoad }: AnimalDetailsProps) {
     const params: RouterParams = useParams();
@@ -66,7 +54,6 @@ function AnimalDetails({ onLoad }: AnimalDetailsProps) {
         return <p>No data!</p>;
     }
 
-
     const { animal, events } = data;
     const birthDay = animal.details?.birthDate ? getAnimalAge(animal.details.birthDate) : '';
     const weight = animal.details?.weight ? getAnimalWeight(animal.details.weight) : '';
@@ -77,7 +64,6 @@ function AnimalDetails({ onLoad }: AnimalDetailsProps) {
         { title: 'Weight', value: weight },
         { title: 'Color', value: color },
     ];
-
 
     return (
         <div className={classes.root}>
